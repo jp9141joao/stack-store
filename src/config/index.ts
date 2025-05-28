@@ -3,6 +3,9 @@ import express, { response } from 'express'
 import mongoose from 'mongoose';
 import cors from 'cors'
 import { routes } from '../routes/routes';
+import { swaggerSpec } from './swagger';
+import swaggerUi from 'swagger-ui-express';
+
 
 dotenv.config();
 
@@ -55,10 +58,11 @@ app.use(
     express.urlencoded({
         extended: true
     })
-)
+);
 
 app.use(express.json());
 app.use(routes);
+app.use('./api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 connectDB();
 
