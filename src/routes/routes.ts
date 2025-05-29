@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { createProduct, deleteProduct, getProductById, getProductByName, getProducts, updateProduct } from '../controllers/controller';
+import { createProduct, deleteProduct, getProductByIdOrName, getProducts, updateProduct } from '../controllers/controller';
 
 const routes = Router();
 
@@ -28,22 +28,22 @@ routes.get('/product', getProducts);
 
 /**
  *  @swagger
- * /product/{id}:
+ * /product/{param}:
  *      get: 
- *          summary: Get a product by ID.
+ *          summary: Get a product by ID or name.
  *          tags:
  *              - Products
  *          parameters: 
  *              - in: path
- *                name: id
+ *                name: id or name
  *                schema:  
  *                  type: string
  *                required: true
  *                description: 
- *                  Product ID
+ *                  Product ID or Product name
  *          responses:
  *              200:
- *                  description: Product found by ID
+ *                  description: Product found by ID or name
  *                  content:
  *                      application/json:   
     *                      schema:
@@ -67,50 +67,7 @@ routes.get('/product', getProducts);
  *                          schema:
  *                              $ref: '#/components/schemas/httpResultError'
 **/
-routes.get('/product/:id', getProductById);
-
-/**
- * @swagger
- * /product/{name}
- *      get:
- *          summary: Get product by name
- *          tags:
- *              - Products
- *          parameters:
- *              - in: path
- *                name: name
- *                schema:
- *                  type: string
- *                required: true
- *                description:
- *                  Product name
- *          responses:
- *              200:
- *                  description: Product found by name
- *                  content:
- *                      application/json:
- *                          schema:
- *                              $ref: '#/components/schemas/httpResultProductArray'
- *              400:
- *                  description: Bad Request - Params invalid or missing data
- *                  content:
- *                      application/json:
- *                          schema: 
- *                              $ref: '#/components/schemas/httpResultError'
- *             404:
- *                  description: Not Found - Resource not found
- *                  content: 
- *                      application/json: 
- *                          schema: 
- *                              $ref: '#/components/schemas/httpResultError'
- *             500:
- *                  description: Internal server error
- *                  content: 
- *                      application/json:
- *                          schema: 
- *                              $ref: '#/components/schemas/httpResultError'
-**/
-routes.get('/product/:name', getProductByName);
+routes.get('/product/:param', getProductByIdOrName);
 
 /**
  * @swagger

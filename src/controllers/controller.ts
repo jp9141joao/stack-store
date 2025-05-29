@@ -3,6 +3,7 @@ import { ProductDTO } from '../types/types';
 import { HttpResult } from '../utils/httpResult';
 import Product from '../models/Product';
 import { stringify } from 'querystring';
+import mongoose, { ObjectId } from 'mongoose';
 
 export const getProducts = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -19,15 +20,28 @@ export const getProducts = async (req: Request, res: Response): Promise<void> =>
 };
 
 export const getProductByIdOrName = async (req: Request, res: Response): Promise<void> => {
-    const { params } = req.params;
+    const { param } = req.body;
 
-    if (!params) {
-        res.status(400).json(HttpResult.Success("Product ID or name is required!"));
+    if (!param) {
+        res.status(400).json(HttpResult.Fail("Product ID or name is required!"));
         return;
     }
 
+    let id: ObjectId;
+    let name: string;
+    let product: any; 
+
     try {
-        const product = await Product.findOne({ params });
+
+        if (mongoose.Types.ObjectId.isValid(param)) {
+            id = param;
+
+            product = await Product.findById(id);
+        } else {
+            name = param;
+
+            product = await Product.find({ _name: name });
+        }
 
         if (!product) {
             res.status(404).json(HttpResult.Fail("Product not found!"));
@@ -41,35 +55,6 @@ export const getProductByIdOrName = async (req: Request, res: Response): Promise
         console.error(error);
         res.status(500).json(HttpResult.Fail("An unexpected error occurred while fetching product!"));
         return;
-    }
-};
-
-export const getProductByName = async (req: Request, res: Response): Promise<void> => {
-    const { name } = req.body;
-
-    if (!name) {
-        res.status(400).json(HttpResult.Fail("Product name is required"));
-        return;
-    } else if (typeof name !== 'string' || stringify.length < 5) {
-        res.status(400).json(HttpResult.Fail("Product name must be at least 5 caracters long!"));
-        return;
-    }
-
-    try {
-
-        const product = await Product.find({ name: name});
-
-        if (!product) {
-            res.status(404).json(HttpResult.Fail("Product not found!"));
-            return;
-        }
-
-        res.status(200).json(HttpResult.Success(product));
-        return;
-
-    } catch (error: any) {
-        console.log(error);
-        res.status(500).json(HttpResult.Fail("An unexpected error occurred while fetching product by name!"))
     }
 }
 
