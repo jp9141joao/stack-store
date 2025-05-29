@@ -29,6 +29,15 @@ const swaggerDefinition = {
                 },
                 required: ['name', 'description', 'color', 'weight', 'type', 'price', 'dateRegister'],
             },
+            HttpResultProduct: {
+                type: 'object',
+                proprieties: {
+                    success: { type: 'boolean', example: true },
+                    data: { $ref: '#/components/schemas/Product' },
+                    error: { type: 'string', example: { $ref: '#/components/schemas/Product' } },
+                },
+            
+            },
             HttpResultProductArray: {
                 type: 'object',
                 properieties: {

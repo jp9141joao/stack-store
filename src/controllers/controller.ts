@@ -18,16 +18,16 @@ export const getProducts = async (req: Request, res: Response): Promise<void> =>
     }
 };
 
-export const getProductById = async (req: Request, res: Response): Promise<void> => {
-    const { id } = req.params;
+export const getProductByIdOrName = async (req: Request, res: Response): Promise<void> => {
+    const { params } = req.params;
 
-    if (!id) {
-        res.status(400).json(HttpResult.Success("Product ID is required!"));
+    if (!params) {
+        res.status(400).json(HttpResult.Success("Product ID or name is required!"));
         return;
     }
 
     try {
-        const product = await Product.findById(id);
+        const product = await Product.findOne({ params });
 
         if (!product) {
             res.status(404).json(HttpResult.Fail("Product not found!"));
@@ -39,7 +39,7 @@ export const getProductById = async (req: Request, res: Response): Promise<void>
 
     } catch (error: any) {
         console.error(error);
-        res.status(500).json(HttpResult.Fail("An unexpected error occurred while fetching product by ID!"));
+        res.status(500).json(HttpResult.Fail("An unexpected error occurred while fetching product!"));
         return;
     }
 };
@@ -145,7 +145,7 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
             dateRegister
         });
 
-        res.status(200).json(HttpResult.Success("Product created successfully!"));
+        res.status(201).json(HttpResult.Success("Product created successfully!"));
         return;
 
     } catch (error: any) {
