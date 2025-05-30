@@ -167,13 +167,7 @@ routes.put('/product/:id', updateProduct);
  *                  type: string
  *                required: true
  *                description:    
- *                  Product ID
- *          requestBody:
- *              required: true
- *              content:
- *                  application/json:
- *                      schema:
- *                          $ref: '#/components/schemas/Product'
+ *                  Product ID     
  *          responses:
  *              200:
  *                  description: Product deleted successfully
