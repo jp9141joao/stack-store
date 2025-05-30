@@ -1,20 +1,21 @@
 import { Router } from 'express'
 import { createProduct, deleteProduct, getProductByIdOrName, getProducts, updateProduct } from '../controllers/controller';
+import { CheckParameters, CheckProductData, CheckProductId } from '../middlewares/productMiddleware';
 
 const routes = Router();
 
 /**
  *  @swagger
  * /product:
- *      get: 
- *          summary: Get all products ,
- *          tags: 
+ *      get:
+ *          summary: Get all products
+ *          tags:
  *              - Products
  *          responses:
  *              200:
  *                  description: List of products
  *                  content:
- *                      application/json
+ *                      application/json:
  *                          schema:
  *                              $ref: '#/components/schemas/HttpResultProductArray'
  *              500:
@@ -23,51 +24,50 @@ const routes = Router();
  *                      application/json:
  *                          schema:
  *                              $ref: '#/components/schemas/HttpResultError'
-**/
+ **/
 routes.get('/product', getProducts);
 
 /**
  *  @swagger
  * /product/{param}:
- *      get: 
- *          summary: Get a product by ID or name.
+ *      get:
+ *          summary: Get a product by ID or name
  *          tags:
  *              - Products
- *          parameters: 
+ *          parameters:
  *              - in: path
- *                name: id or name
- *                schema:  
+ *                name: param
+ *                schema:
  *                  type: string
  *                required: true
- *                description: 
- *                  Product ID or Product name
+ *                description: Product ID or Product name
  *          responses:
  *              200:
  *                  description: Product found by ID or name
  *                  content:
- *                      application/json:   
-    *                      schema:
-    *                          $ref: '#/components/schemas/httpRresultProduct'
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/components/schemas/HttpResultProduct'
  *              400:
  *                  description: Bad Request - Invalid params or missing data
  *                  content:
  *                      application/json:
- *                          schema: 
- *                              $ref: '#/components/schemas/httpResultError'
+ *                          schema:
+ *                              $ref: '#/components/schemas/HttpResultError'
  *              404:
- *                  description: Not found - Resource not found
- *                  content: 
+ *                  description: Not Found - Resource not found
+ *                  content:
  *                      application/json:
  *                          schema:
- *                              $ref: '#/components/schemas/httpResultError' 
+ *                              $ref: '#/components/schemas/HttpResultError'
  *              500:
  *                  description: Internal server error
  *                  content:
  *                      application/json:
  *                          schema:
- *                              $ref: '#/components/schemas/httpResultError'
-**/
-routes.get('/product/:param', getProductByIdOrName);
+ *                              $ref: '#/components/schemas/HttpResultError'
+ **/
+routes.get('/product/:param', CheckParameters, getProductByIdOrName);
 
 /**
  * @swagger
@@ -75,38 +75,38 @@ routes.get('/product/:param', getProductByIdOrName);
  *      post:
  *          summary: Create a new product
  *          tags:
- *              - Products 
+ *              - Products
  *          requestBody:
  *              required: true
- *              content: 
- *                  application/json: 
+ *              content:
+ *                  application/json:
  *                      schema:
  *                          $ref: '#/components/schemas/Product'
  *          responses:
- *              201: 
- *                  description: Product create successfully
+ *              201:
+ *                  description: Product created successfully
  *                  content:
  *                      application/json:
  *                          schema:
- *                              $ref: '#/components/schemas/httpResultProduct'
+ *                              $ref: '#/components/schemas/HttpResultProduct'
  *              400:
  *                  description: Bad Request - Invalid params or missing data
- *                  content: 
- *                      application/json:
- *                          schema:
- *                              $ref: '#/components/schemas/httpResultError'
- *              500: 
- *                  description: Internal serer error
  *                  content:
  *                      application/json:
  *                          schema:
- *                              $ref: '#/components/schemas/httpResultError'
-**/
-routes.post('/product', createProduct);
+ *                              $ref: '#/components/schemas/HttpResultError'
+ *              500:
+ *                  description: Internal server error
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/components/schemas/HttpResultError'
+ **/
+routes.post('/product', CheckProductData, createProduct);
 
 /**
  * @swagger
- * /product/{id}
+ * /product/{id}:
  *      put:
  *          summary: Update product data by ID
  *          tags:
@@ -117,12 +117,11 @@ routes.post('/product', createProduct);
  *                schema:
  *                  type: string
  *                required: true
- *                description
- *                  Product ID
+ *                description: Product ID
  *          requestBody:
  *              required: true
  *              content:
- *                  application/json:    
+ *                  application/json:
  *                      schema:
  *                         $ref: '#/components/schemas/Product'
  *          responses:
@@ -131,31 +130,31 @@ routes.post('/product', createProduct);
  *                  content:
  *                      application/json:
  *                          schema:
- *                              $ref: '#/components/schemas/httpResultProduct'
- *             400:
+ *                              $ref: '#/components/schemas/HttpResultProduct'
+ *              400:
  *                  description: Bad Request - Invalid params or missing data
  *                  content:
- *                      application: 
- *                          schema: 
- *                              $ref: '#/components/schemas/httpResultError'
- *             404: 
- *                  description: Not Found - Resource not found 
- *                  content: 
- *                      application/json: 
- *                          schema:
- *                              $ref: '#/components/schemas/httpResultError'
- *            500: 
- *                  description: Internal server error
- *                  content: 
  *                      application/json:
  *                          schema:
- *                              $ref: '#/components/schemas/httpResultError'
-**/
-routes.put('/product/:id', updateProduct);
+ *                              $ref: '#/components/schemas/HttpResultError'
+ *              404:
+ *                  description: Not Found - Resource not found
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/components/schemas/HttpResultError'
+ *              500:
+ *                  description: Internal server error
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#/components/schemas/HttpResultError'
+ **/
+routes.put('/product/:id', CheckProductId, CheckProductData, updateProduct);
 
 /**
  * @swagger
- * /product/{id}
+ * /product/{id}:
  *      delete:
  *          summary: Remove a product by ID
  *          tags:
@@ -166,34 +165,34 @@ routes.put('/product/:id', updateProduct);
  *                schema:
  *                  type: string
  *                required: true
- *                description:    
- *                  Product ID     
+ *                description: Product ID
  *          responses:
  *              200:
  *                  description: Product deleted successfully
  *                  content:
  *                      application/json:
  *                          schema:
- *                              $ref: '#/components/schemas/httpResultProduct'
- *              400: 
+ *                              $ref: '#/components/schemas/HttpResultProduct'
+ *              400:
  *                  description: Bad Request - Invalid params or missing data
  *                  content:
  *                      application/json:
  *                          schema:
- *                              $ref: '#/components/schemas/httpResultError'
+ *                              $ref: '#/components/schemas/HttpResultError'
  *              404:
  *                  description: Not Found - Resource not found
  *                  content:
  *                      application/json:
- *                          schema: 
- *                              $ref: '#/components/schemas/httpResultError'
+ *                          schema:
+ *                              $ref: '#/components/schemas/HttpResultError'
  *              500:
  *                  description: Internal server error
  *                  content:
  *                      application/json:
  *                          schema:
- *                              $ref: '#/components/schemas/httpResultError'                     
-**/
-routes.delete('/product/:id', deleteProduct);
+ *                              $ref: '#/components/schemas/HttpResultError'
+ **/
+routes.delete('/product/:id', CheckProductId, deleteProduct);
 
 export { routes };
+
