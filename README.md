@@ -1,37 +1,46 @@
 # 🛒 Stack Store
 
-**Stack Store** is a basic e-commerce backend project built for educational purposes. It demonstrates the structure of a simple Node.js application using TypeScript and follows best practices for organizing controllers, routes, services, and middleware.
+**Stack Store** is a simple and educational e-commerce backend built with Node.js and TypeScript. The project showcases a clean architecture and best practices for building scalable REST APIs using Express, MongoDB, and modular code organization.
+
+---
 
 ## 📁 Project Structure
 
 ```
 stack-store/
 ├── src/
-│   ├── config/         # Configuration files (e.g., database connection)
-│   ├── controllers/    # Request handlers
-│   ├── database/       # Database initialization or seed files
-│   ├── middlewares/    # Custom Express middlewares
-│   ├── models/         # Database models or schemas
-│   ├── routes/         # API routes
-│   ├── services/       # Business logic
-│   └── index.ts        # Entry point
-├── .env                # Environment variables
-├── .env.exp            # Example environment file
-├── package.json
-├── package-lock.json
-├── tsconfig.json
-└── README.md
+│   ├── config/         # Configuration files (e.g., database connection setup)
+│   ├── controllers/    # Route handlers managing requests and responses
+│   ├── database/       # Database initialization, migrations, or seed scripts
+│   ├── middlewares/    # Custom Express middleware functions for validation, auth, etc.
+│   ├── models/         # Mongoose schemas and data models
+│   ├── routes/         # API route definitions and endpoints
+│   ├── services/       # Business logic and interaction with data models
+│   └── index.ts        # Application entry point
+├── .env                # Environment variables (not committed)
+├── .env.exp            # Example environment variables template
+├── package.json        # Project dependencies and scripts
+├── package-lock.json   # Exact dependency versions
+├── tsconfig.json       # TypeScript configuration
+└── README.md           # Project documentation
 ```
+
+---
 
 ## 📦 Technologies Used
 
-* **TypeScript**
-* **Node.js**
-* **Express**
-* **MongoDB** (or another DB, depending on your `.env`)
-* **Docker** (optional, for containerization)
+* **TypeScript** — Typed superset of JavaScript for safer code
+* **Node.js** — JavaScript runtime environment
+* **Express** — Web framework for Node.js
+* **MongoDB** — NoSQL database for storing products and data
+* **Mongoose** — MongoDB object modeling tool
+* **Docker** *(optional)* — Containerization for deployment and development
+
+---
 
 ## 🚀 Getting Started
+
+Follow these steps to run the project locally:
 
 ### 1. Clone the repository
 
@@ -48,7 +57,7 @@ npm install
 
 ### 3. Configure environment variables
 
-Create a `.env` file based on `.env.exp`:
+Create a `.env` file in the root directory based on the example `.env.exp` file, and fill in your environment-specific settings:
 
 ```env
 PORT=3000
@@ -62,8 +71,28 @@ JWT_SECRET=your_secret_key
 npm run dev
 ```
 
-Visit: `http://localhost:3000`
+The API will be available at: `http://localhost:3000`
 
-## 📜 License
+---
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+## 🧪 Testing (Optional)
+
+If you add tests in the future, include instructions here.
+
+---
+
+## 📚 API Overview
+
+The backend exposes CRUD operations for products including:
+
+* Get all products
+* Get product by ID or name
+* Create new product
+* Update existing product
+* Delete product
+
+---
+
+## 🤝 Contributions
+
+Feel free to open issues or submit pull requests. Contributions are welcome!

@@ -1,20 +1,22 @@
 import swaggerJsdoc from 'swagger-jsdoc';
 
+// Swagger definition object with general API info
 const swaggerDefinition = {
-    openapi: '3.0.0',
+    openapi: '3.0.0', // Specifies OpenAPI version
     info: {
-        title: 'Stack Store API',
-        version: '1.0.0',
-        description: 'API documentation with swagger'
+        title: 'Stack Store API', // API name
+        version: '1.0.0', // API version
+        description: 'API documentation with swagger' // Description shown in Swagger UI
     },
     servers: [
         {
-            url: 'http://localhost:3000',
+            url: 'http://localhost:3000', // Base URL of your API (development server)
             description: 'Development Server'
         },
     ],
     components: {
         schemas: {
+            // Schema that defines a "Product" object used in API responses
             Product: {
                 type: 'object',
                 properties: {
@@ -29,15 +31,16 @@ const swaggerDefinition = {
                 },
                 required: ['name', 'description', 'color', 'weight', 'type', 'price', 'dateRegister'],
             },
+            // Standard API response when returning a single Product
             HttpResultProduct: {
                 type: 'object',
                 properties: {
                     success: { type: 'boolean', example: true },
-                    data: { $ref: '#/components/schemas/Product' },
+                    data: { $ref: '#/components/schemas/Product' }, // Reuses Product schema
                     error: { type: 'string', example: '' },
                 },
-            
             },
+            // Standard API response when returning an array of Products
             HttpResultProductArray: {
                 type: 'object',
                 properties: {
@@ -46,6 +49,7 @@ const swaggerDefinition = {
                     error: { type: 'string', example: '' }
                 }, 
             },
+            // Standard API response when an error occurs
             HttpResultError: {
                 type: 'object',
                 properties: {
@@ -58,9 +62,11 @@ const swaggerDefinition = {
     },
 };
 
+// Options for swagger-jsdoc
 const options = {
-    definition: swaggerDefinition,
-    apis: ['./src/routes/*.ts'],
+    definition: swaggerDefinition, // The Swagger definitions declared above
+    apis: ['./src/routes/*.ts'], // Path to files where API routes are documented using Swagger comments
 }
 
+// Generate the Swagger specification from the options
 export const swaggerSpec = swaggerJsdoc(options);
