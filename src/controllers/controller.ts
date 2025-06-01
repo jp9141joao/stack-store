@@ -8,7 +8,7 @@ export const getProducts = async (req: Request, res: Response): Promise<void> =>
     try {
         const products = await Product.find();
 
-        res.status(200).json(HttpResult.Success(products));
+        res.status(200).json(HttpResult.Success(products.length > 0 ? products : 'No products exist yet!'));
         return;
 
     } catch (error: any) {
@@ -19,27 +19,24 @@ export const getProducts = async (req: Request, res: Response): Promise<void> =>
 };
 
 export const getProductByIdOrName = async (req: Request, res: Response): Promise<void> => {
-    const { param } = req.body;
+    const { param } = req.params;
 
     let product: any;
-    let filter: any = {};
 
     try {
 
         if (mongoose.Types.ObjectId.isValid(param)) {
-            filter._id = param;
+            product = await Product.find({ _id: param });
         } else {
-            filter._name = param;
+            product = await Product.find({ name: param });
         }
-
-        product = await Product.find(filter)
 
         if (!product) {
             res.status(404).json(HttpResult.Fail("Product not found!"));
             return;
         }
 
-        res.status(200).json(HttpResult.Success(product));
+        res.status(200).json(HttpResult.Success(product.length > 0 ? product : 'No product was found with this parameter!'));
         return;
 
     } catch (error: any) {
@@ -63,7 +60,7 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
             dateRegister
         });
 
-        res.status(201).json(HttpResult.Success("Product created successfully!"));
+        res.status(201).json(HttpResult.Success(`Product created successfully!`));
         return;
 
     } catch (error: any) {
@@ -75,7 +72,6 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
 
 export const updateProduct = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
-    const { name, description, color, weight, type, price, dateRegister } = req.body as Partial<ProductDTO>;
 
     const allowedFields: (keyof ProductDTO)[] = [
         'name',

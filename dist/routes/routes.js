@@ -1,9 +1,11 @@
-import { Router } from 'express'
-import { createProduct, deleteProduct, getProductByIdOrName, getProducts, updateProduct } from '../controllers/controller';
-import { CheckParameters, CheckProductData, CheckProductId } from '../middlewares/productMiddleware';
-
-const routes = Router();
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.routes = void 0;
+const express_1 = require("express");
+const controller_1 = require("../controllers/controller");
+const productMiddleware_1 = require("../middlewares/productMiddleware");
+const routes = (0, express_1.Router)();
+exports.routes = routes;
 /**
  * @swagger
  * /product:
@@ -25,8 +27,7 @@ const routes = Router();
  *             schema:
  *               $ref: '#/components/schemas/HttpResultError'
  */
-routes.get('/product', getProducts);
-
+routes.get('/product', controller_1.getProducts);
 /**
  * @swagger
  * /product/{param}:
@@ -67,8 +68,7 @@ routes.get('/product', getProducts);
  *             schema:
  *               $ref: '#/components/schemas/HttpResultError'
  */
-routes.get('/product/:param', CheckParameters, getProductByIdOrName);
-
+routes.get('/product/:param', productMiddleware_1.CheckParameters, controller_1.getProductByIdOrName);
 /**
  * @swagger
  * /product:
@@ -102,8 +102,7 @@ routes.get('/product/:param', CheckParameters, getProductByIdOrName);
  *             schema:
  *               $ref: '#/components/schemas/HttpResultError'
  */
-routes.post('/product', CheckProductData, createProduct);
-
+routes.post('/product', productMiddleware_1.CheckProductData, controller_1.createProduct);
 /**
  * @swagger
  * /product/{id}:
@@ -150,8 +149,7 @@ routes.post('/product', CheckProductData, createProduct);
  *             schema:
  *               $ref: '#/components/schemas/HttpResultError'
  */
-routes.put('/product/:id', CheckProductId, CheckProductData, updateProduct);
-
+routes.put('/product/:id', productMiddleware_1.CheckProductId, productMiddleware_1.CheckProductData, controller_1.updateProduct);
 /**
  * @swagger
  * /product/{id}:
@@ -192,6 +190,4 @@ routes.put('/product/:id', CheckProductId, CheckProductData, updateProduct);
  *             schema:
  *               $ref: '#/components/schemas/HttpResultError'
  */
-routes.delete('/product/:id', CheckProductId, deleteProduct);
-
-export { routes };
+routes.delete('/product/:id', productMiddleware_1.CheckProductId, controller_1.deleteProduct);

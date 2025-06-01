@@ -4,7 +4,7 @@ import mongoose, { mongo } from "mongoose";
 import { ProductDTO } from "../types/types";
 
 export const CheckProductId = (req: Request, res: Response, next: NextFunction) => {
-    const { id } = req.body;
+    const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         res.status(400).json(HttpResult.Fail("Invalid Product ID format!"));
@@ -15,14 +15,14 @@ export const CheckProductId = (req: Request, res: Response, next: NextFunction) 
 }
 
 export const CheckParameters = (req: Request, res: Response, next: NextFunction) => {
-    const { param } = req.body;
+    const { param } = req.params;
     
     if (!param) {
         res.status(400).json(HttpResult.Fail("Product ID or name is required!"));
         return;
     }
 
-    if (!mongoose.Types.ObjectId.isValid(param) && typeof param !== 'string') {
+    if (!mongoose.Types.ObjectId.isValid(param) && typeof param !== 'string' || (typeof param === 'string' && param.length < 3)) {
         res.status(400).json(HttpResult.Fail("Invalid Product ID or name format!"));
         return;
     }
@@ -35,7 +35,7 @@ export const CheckProductData = (req: Request, res: Response, next: NextFunction
     const { name, description, color, weight, type, price, dateRegister } = req.body as Partial<ProductDTO>;
     
     if (!id && !name) {
-        res.status(400).json("Product name is required!");
+        res.status(400).json(HttpResult.Fail("Product name is required!"));
         return;
     } else if (name && (typeof name !== 'string' || name.length < 5)) {
         res.status(400).json(HttpResult.Fail("Product name must be at least 5 characters long!"));
