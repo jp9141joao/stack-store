@@ -21,7 +21,7 @@ const swaggerDefinition = {
                     id: { type: 'string', example: '605c3c2f1c4ae4567890abcd' },
                     name: { type: 'string', example: 'Notebook' },
                     description: { type: 'string', example: 'High-end gaming laptop'},
-                    color: { type: 'string', exmaple: 'Black' },
+                    color: { type: 'string', example: 'Black' },
                     weight: { type: 'number', example: 2.6 },
                     type: { type: 'string', example: 'Eletronics' },
                     price: { type: 'number', example: 1500.0 },
@@ -31,16 +31,16 @@ const swaggerDefinition = {
             },
             HttpResultProduct: {
                 type: 'object',
-                proprieties: {
+                properties: {
                     success: { type: 'boolean', example: true },
                     data: { $ref: '#/components/schemas/Product' },
-                    error: { type: 'string', example: { $ref: '#/components/schemas/Product' } },
+                    error: { type: 'string', example: '' },
                 },
             
             },
             HttpResultProductArray: {
                 type: 'object',
-                properieties: {
+                properties: {
                     success: { type: 'boolean', example: true },
                     data: { type: 'array', items: { $ref: '#/components/schemas/Product'} },
                     error: { type: 'string', example: '' }
@@ -48,10 +48,10 @@ const swaggerDefinition = {
             },
             HttpResultError: {
                 type: 'object',
-                properieties: {
+                properties: {
                     success: { type: 'boolean', example: false },
                     data: { type: 'object', nullable: true },
-                    error: { type: 'string', example: 'Error menssage' }
+                    error: { type: 'string', example: 'Error message' }
                 },
             },
         },

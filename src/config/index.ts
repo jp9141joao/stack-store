@@ -10,16 +10,11 @@ import swaggerUi from 'swagger-ui-express';
 dotenv.config();
 
 const app = express();
-const SECRET_KEY = process.env.SECRET_KEY || '';
 const PORT = process.env.PORT || 3000;
 const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS || 'http://localhost:5173';
 const DATABASE_USER = process.env.DATABASE_USER || '';
 const DATABASE_PASSWORD = process.env.DATABASE_PASSWORD || '';
-const DATABASE_URL = process.env.DATABASE_URL?.replace('<user>', DATABASE_USER).replace('<password>', DATABASE_PASSWORD) || '';
-
-if (!SECRET_KEY) {
-    throw new Error("SECRET_KEY is not defined in the .env file.");
-}
+const DATABASE_URL = process.env.DATABASE_URL?.replace('<db_username>', DATABASE_USER).replace('<db_password>', DATABASE_PASSWORD) || '';
 
 if (!DATABASE_URL) {
     throw new Error("DATABASE_URL is not defined in the .env file.");
