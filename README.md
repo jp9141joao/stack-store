@@ -75,12 +75,6 @@ The API will be available at: `http://localhost:3000`
 
 ---
 
-## 🧪 Testing (Optional)
-
-If you add tests in the future, include instructions here.
-
----
-
 ## 📚 API Overview
 
 The backend exposes CRUD operations for products including:
