@@ -10,7 +10,7 @@ const swaggerDefinition = {
     },
     servers: [
         {
-            url: 'http://localhost:3000', // Base URL of your API (development server)
+            url: 'https://stack-store.onrender.com', // Base URL of your API (development server)
             description: 'Development Server'
         },
     ],
